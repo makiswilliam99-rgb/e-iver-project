@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="navbar.css">
+    <title>Navbar</title>
+  </head>
+
+  <body>
+
+    <header class="navbar">
+
+      <!-- Hamburger -->
+      <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <!-- Branding (ALWAYS visible) -->
+      <div class="brand">
+        <img src="f4.jpg" alt="Profile" class="profile-img">
+        <span class="name">
+          <a href="index.html">William Makis</a>
+        </span>
+      </div>
+
+      <!-- Sliding Menu -->
+      <nav class="nav-links" id="navLinks">
+
+        <div class="nav-item dropdown">
+          <i class="fa-solid fa-hand-holding-medical"></i>Cancer Support <span class="arrow">▼</span>
+          <div class="dropdown-menu">
+            <a href="product-page.html"><i class="fa-solid fa-pills"></i> Products</a>
+            <a href="protocol-page.html"><i class="fas fa-file-medical"></i> Protocols</a>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="consultation-page.html"><i class="fa-solid fa-life-ring"></i> Consultations</a>
+        </div>
+
+        <div class="nav-item"><i class="fa-solid fa-hand-holding-hand"></i> Help Others</div>
+        <div class="nav-item"><i class="fa-brands fa-meetup"></i> Membership</div>
+
+        <div class="nav-item dropdown">
+          <i class="fa-solid fa-book-medical"></i> Resources <span class="arrow">▼</span>
+          <div class="dropdown-menu">
+            <a href="about.html"><i class="fa-solid fa-clipboard-user"></i> About me</a>
+            <a href="faq.html"><i class="fa-solid fa-circle-question"></i> FAQ</a>
+            <a href="privacy.html"><i class="fa-solid fa-shield-halved"></i> Privacy</a>
+            <a href="terms.html"><i class="fa-solid fa-head-side-cough-slash"></i> Terms</a>
+          </div>
+        </div>
+
+      </nav>
+
+      <!-- Right section (desktop only) -->
+      <div class="right-section">
+        <div class="language">
+          <img src="uk-flag.png" class="flag"> English ▼
+        </div>
+      </div>
+
+    </header>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+        const dropdowns = document.querySelectorAll(".dropdown");
+
+        if (!menuToggle || !navLinks) {
+          console.error("Navbar elements not found");
+          return;
+        }
+
+        // Hamburger toggle
+        menuToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          navLinks.classList.toggle("active");
+        });
+
+        // Mobile dropdown toggle
+        dropdowns.forEach(dropdown => {
+          dropdown.addEventListener("click", (e) => {
+            if (window.innerWidth <= 768) {
+              e.stopPropagation();
+              dropdown.classList.toggle("open");
+            }
+          });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener("click", () => {
+          navLinks.classList.remove("active");
+        });
+
+        navLinks.addEventListener("click", (e) => {
+          e.stopPropagation();
+        });
+      });
+      menuToggle.addEventListener("click", () => console.log("clicked"));
+
+    </script>
+
+
+  </body>
+</html>
+''
