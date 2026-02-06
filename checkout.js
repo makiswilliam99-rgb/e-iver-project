@@ -155,21 +155,14 @@ document.addEventListener("DOMContentLoaded", () => {
       cart_items: itemsField.value,
       total_price: totalField.value,
     };
+    emailjs.send("service_8tf7geq", "template_nsfv31o", params)
+    .then(() => {
+      return emailjs.send("service_8tf7geq", "template_v6rhp2s", params);
+    })
+    .then(() => {
+      console.log("Both emails sent");
+    })
+    .catch(err => console.error(err));
 
-    emailjs
-      .send("service_2q5mh4x", "template_nsfv31o", templateParams)
-      .then(() => {
-        localStorage.removeItem("cart");
-        localStorage.setItem("lastOrderId", orderId);
-        window.location.href = "order-success.html";
-      })
-      .catch((error) => {
-        console.error("EmailJS error:", error);
-        alert("❌ Failed to submit order. Try again.");
-
-        // 🔓 Restore button on error
-        submitBtn.classList.remove("loading");
-        submitBtn.disabled = false;
-      });
   });
 });
