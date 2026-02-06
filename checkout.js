@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     emailjs
-      .send("service_ujsjc6g", "template_e8yjcfh", templateParams)
+      .send("service_2q5mh4x", "template_nsfv31o", templateParams)
       .then(() => {
         localStorage.removeItem("cart");
         localStorage.setItem("lastOrderId", orderId);

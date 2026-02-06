@@ -50,17 +50,43 @@ const productData = {
 };
 
 function openProductModal(productKey) {
-    const product = productData[productKey];
-    if (!product) return;
+  const product = productData[productKey];
+  if (!product) return;
 
-    document.getElementById("modalTitle").innerText = product.title;
-    document.getElementById("modalDescription").innerText = product.description;
-    document.getElementById("modalPrice").innerText = product.price;
-    document.getElementById("modalImage").src = product.image;
-    document.getElementById("modalRating").innerText = product.rating;
+  document.getElementById("modalTitle").innerText = product.title;
+  document.getElementById("modalDescription").innerText = product.description;
+  document.getElementById("modalPrice").innerText = product.price;
+  document.getElementById("modalImage").src = product.image;
+  document.getElementById("modalRating").innerText = product.rating;
 
-    document.getElementById("productModal").style.display = "flex";
+  const modal = document.getElementById("productModal");
+  modal.style.display = "flex";
+
+  // 🔥 FIX: Attach actions to modal buttons
+  const addBtn = modal.querySelector(".add-to-cart");
+  const buyBtn = modal.querySelector(".buy-now");
+
+  addBtn.onclick = () => {
+    addToCart({
+      id: productKey,
+      type: "product",
+      name: product.title,
+      price: parseFloat(product.price.replace("$", ""))
+    });
+    closeProductModal();
+  };
+
+  buyBtn.onclick = () => {
+    addToCart({
+      id: productKey,
+      type: "product",
+      name: product.title,
+      price: parseFloat(product.price.replace("$", ""))
+    });
+    window.location.href = "checkout.html";
+  };
 }
+
 
 function closeProductModal() {
     document.getElementById("productModal").style.display = "none";
@@ -94,17 +120,33 @@ const protocolData = {
 };
 
 function openProtocolModal(protocolKey) {
-    const protocol = protocolData[protocolKey];
-    if (!protocol) return;
+  const protocol = protocolData[protocolKey];
+  if (!protocol) return;
 
-    document.getElementById("protocolTitle").innerText = protocol.title;
-    document.getElementById("protocolDescription").innerText = protocol.description;
-    document.getElementById("protocolPrice").innerText = protocol.price;
-    document.getElementById("protocolDuration").innerText = protocol.duration;
-    document.getElementById("protocolLevel").innerText = protocol.level;
+  document.getElementById("protocolTitle").innerText = protocol.title;
+  document.getElementById("protocolDescription").innerText = protocol.description;
+  document.getElementById("protocolPrice").innerText = protocol.price;
+  document.getElementById("protocolDuration").innerText = protocol.duration;
+  document.getElementById("protocolLevel").innerText = protocol.level;
 
-    document.getElementById("protocolModal").style.display = "flex";
+  const modal = document.getElementById("protocolModal");
+  modal.style.display = "flex";
+
+  // ✅ FIX: wire the modal Add to Cart button
+  const addBtn = modal.querySelector(".protocol-cart");
+
+  addBtn.onclick = () => {
+    addToCart({
+      id: protocolKey, // 🔥 REQUIRED
+      type: "protocol",
+      name: protocol.title,
+      price: parseFloat(protocol.price.replace(/[$,]/g, ""))
+    });
+
+    closeProtocolModal();
+  };
 }
+
 
 function closeProtocolModal() {
     document.getElementById("protocolModal").style.display = "none";
@@ -139,24 +181,40 @@ const consultationData = {
   }
 };
 
-window.openConsultationModal = function (key) {
-  const data = consultationData[key];
-  if (!data) return;
+function openConsultationModal(consultKey) {
+  const consult = consultationData[consultKey];
+  if (!consult) {
+    console.error("No consultation found for:", consultKey);
+    return;
+  }
 
-  document.getElementById("consultationModalTitle").innerText = data.title;
-  document.getElementById("consultationModalDescription").innerText = data.description;
-  document.getElementById("consultationModalPrice").innerText = data.price;
-  document.getElementById("consultationDuration").innerText = data.duration;
-  document.getElementById("consultationFormat").innerText = data.format;
+  document.getElementById("consultationModalTitle").innerText = consult.title;
+  document.getElementById("consultationModalDescription").innerText = consult.description;
+  document.getElementById("consultationModalPrice").innerText = consult.price;
+  document.getElementById("consultationDuration").innerText = consult.duration;
+  document.getElementById("consultationFormat").innerText = consult.format;
 
-  document.getElementById("consultationModal").style.display = "flex";
-};
-
-window.closeConsultationModal = function () {
   const modal = document.getElementById("consultationModal");
-  if (!modal) return;
-  modal.style.display = "none";
-};
+  modal.style.display = "flex";
+
+  const addBtn = modal.querySelector(".consult-cart");
+
+  if (!addBtn) {
+    console.error("Consultation cart button not found");
+    return;
+  }
+
+  addBtn.onclick = () => {
+    addToCart({
+      id: consultKey,
+      type: "consultation",
+      name: consult.title,
+      price: parseFloat(consult.price.replace(/[$,]/g, ""))
+    });
+
+    closeConsultationModal();
+  };
+}
 
 // ================= CART LOGIC =================
 
