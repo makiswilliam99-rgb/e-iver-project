@@ -215,6 +215,12 @@ function openConsultationModal(consultKey) {
     closeConsultationModal();
   };
 }
+function closeConsultationModal() {
+  const modal = document.getElementById("consultationModal");
+  if (!modal) return;
+  modal.style.display = "none";
+}
+
 
 // ================= CART LOGIC =================
 
