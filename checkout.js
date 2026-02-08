@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
     emailjs
   .send(
     "service_2q5mh4x",
-    "template_nsfv31o",
+    "template_2yew3sc",
     templateParams
   )
   .then(() => {
