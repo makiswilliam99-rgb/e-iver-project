@@ -3,10 +3,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartSummary = document.getElementById("cartSummary");
   const submitBtn = document.getElementById("submitBtn");
 
-  if (!form || !cartSummary) {
-    console.error("Checkout form or cart summary not found");
-    return;
-  }
+  // ===============================
+// LOAD COUNTRIES
+// ===============================
+const countrySelect = document.getElementById("countrySelect");
+
+const countries = [
+  "United States",
+  "Canada",
+  "Australia",
+  "New Zealand",
+
+  // EU Countries
+  "Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus",
+  "Czech Republic", "Denmark", "Estonia", "Finland", "France",
+  "Germany", "Greece", "Hungary", "Ireland", "Italy",
+  "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands",
+  "Poland", "Portugal", "Romania", "Slovakia", "Slovenia",
+  "Spain", "Sweden"
+];
+
+if (countrySelect) {
+  countrySelect.innerHTML = '<option value="">Select Country</option>';
+
+  countries.forEach(country => {
+    const option = document.createElement("option");
+    option.value = country;
+    option.textContent = country;
+
+    // Optional default
+    if (country === "Canada") {
+      option.selected = true;
+    }
+
+    countrySelect.appendChild(option);
+  });
+}
+
 
   // ===============================
   // LOAD CART
@@ -147,13 +180,15 @@ document.addEventListener("DOMContentLoaded", () => {
     totalField.value = `$${total.toFixed(2)}`;
 
     const templateParams = {
-      order_id: orderId,
-      full_name: form.full_name.value,
-      email: form.email.value,
-      phone: form.phone.value,
-      notes: form.notes.value,
-      cart_items: itemsField.value,
-      total_price: totalField.value,
+     order_id: orderId,
+     full_name: form.full_name.value,
+     email: form.email.value,
+     phone: form.phone.value,
+     notes: form.notes.value,
+     country: form.country.value,
+     payment_method: form.payment_method.value,
+     cart_items: itemsField.value,
+     total_price: totalField.value,
     };
     
     emailjs

@@ -38,6 +38,21 @@ h2 {
   box-shadow: 0 8px 25px rgba(0,0,0,0.1);
   max-width: 450px;
   width: 100%;
+  cursor: pointer;
+  transition: 0.3s;
+  appearance: none; /* removes default ugly arrow */
+}
+
+.checkout-box input,
+.checkout-box textarea,
+.checkout-box select {
+  margin-bottom: 15px;
+}
+
+.checkout-box select:focus {
+  border-color: #001b4e;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 27, 78, 0.3);
 }
 
 .checkout-box h2 {
@@ -89,6 +104,16 @@ textarea {
   transition: 0.3s;
 }
 
+/* Hidden by default */
+#otherPaymentInput {
+  display: none;
+}
+
+/* Show when active */
+#otherPaymentInput.active {
+  display: block;
+}
+
 .checkout-box button:hover {
   background-color: #003b92;
 }
@@ -109,6 +134,11 @@ textarea {
   align-items: center;
   padding: 12px 0;
   border-bottom: 1px solid #eee;
+}
+
+/* Group spacing */
+.form-group {
+  margin-bottom: 15px;
 }
 
 .cart-item:last-child {
@@ -295,3 +325,9 @@ textarea {
   }
 }
 
+@media (max-width: 480px) {
+  .checkout-box select {
+    font-size: 16px; /* prevents zoom on iPhone */
+    padding: 14px 16px;
+  }
+}
