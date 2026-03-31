@@ -145,6 +145,58 @@
   color: white;
 }
 
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f1f3f8;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.qty-control button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background-color: #001b4e;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.qty-control button:hover {
+  background-color: #003b92;
+  transform: scale(1.1);
+}
+
+.qty-control span {
+  min-width: 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: #001b4e;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* ===============================
    MOBILE RESPONSIVENESS
    =============================== */

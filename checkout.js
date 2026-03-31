@@ -80,13 +80,10 @@ if (countrySelect) {
       row.innerHTML = `
         <div class="cart-left">
           <strong>${name}</strong><br>
-          $${price.toFixed(2)}
+          $${price.toFixed(2)} × ${qty}
         </div>
 
         <div class="cart-right">
-          <button type="button" class="qty-btn" data-action="decrease" data-index="${index}">−</button>
-          <span class="qty">${qty}</span>
-          <button type="button" class="qty-btn" data-action="increase" data-index="${index}">+</button>
           <button type="button" class="remove-btn" data-index="${index}">Remove</button>
         </div>
 

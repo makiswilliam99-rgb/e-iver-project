@@ -84,9 +84,12 @@ fetch("footer.html")
           <button class="icon-btn view" onclick="openProductModal('${product.id}')">
             <i class="fa-solid fa-eye"></i>
           </button>
-          <button class="icon-btn cart" onclick="addToCart('${product.id}')">
-            <i class="fa-solid fa-cart-plus"></i>
-          </button>
+
+          <div class="qty-control">
+            <button onclick="changeQty('${product.id}', -1)">−</button>
+            <span id="qty-${product.id}">0</span>
+            <button onclick="changeQty('${product.id}', 1)">+</button>
+          </div>
         </div>
       `;
 
@@ -95,6 +98,8 @@ fetch("footer.html")
 
     pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
     renderPagination();
+
+    products.forEach(p => updateQtyDisplay(p.id));
   }
 
   function renderPagination() {
@@ -114,7 +119,7 @@ fetch("footer.html")
   // =======================
   // 3. Product Modal
   // =======================
-  let currentModalItem = null;
+  
 
   window.openProductModal = function(id) {
     const product = products.find(p => p.id === id);
@@ -143,7 +148,8 @@ fetch("footer.html")
 
   function saveCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart));
-    document.getElementById("cartCount").textContent = cart.length;
+    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+    document.getElementById("cartCount").textContent = totalQty;
   }
 
   window.addToCart = function(id) {
@@ -166,11 +172,51 @@ fetch("footer.html")
     }
 
     saveCart(cart);
-    alert(`${product.title} added to cart!`);
+    showToast(`${product.title} added to cart`);
   }
 
+  function updateQtyDisplay(id) {
+  const cart = getCart();
+  const item = cart.find(p => p.id === id);
+  const el = document.getElementById(`qty-${id}`);
+  if (el) {
+    el.textContent = item ? item.qty : 0;
+  }
+}
+
+window.changeQty = function(id, change) {
+  const cart = getCart();
+  const product = products.find(p => p.id === id);
+  if (!product) return;
+
+  let item = cart.find(p => p.id === id);
+
+  if (!item && change > 0) {
+    // Add new item
+    cart.push({
+      id: product.id,
+      name: product.title,
+      price: product.price,
+      qty: 1
+    });
+  } else if (item) {
+    item.qty += change;
+
+    if (item.qty <= 0) {
+      // Remove if 0
+      const index = cart.indexOf(item);
+      cart.splice(index, 1);
+    }
+  }
+
+  saveCart(cart);
+  updateQtyDisplay(id);
+};
+
   // Initialize cart count
-  document.getElementById("cartCount").textContent = getCart().length;
+  const initialCart = getCart();
+  const totalQty = initialCart.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById("cartCount").textContent = totalQty;
 
   // =======================
   // 5. Prev / Next Buttons
@@ -195,23 +241,31 @@ function goToCheckout() {
   window.location.href = "checkout.html"; // Your checkout page
 }
 
-function addModalItemToCart() {
-    if (!currentModalItem) return; // safety check
+window.addModalItemToCart = function() {
+  if (!currentModalItem) return;
 
-    // Get existing cart or start empty
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-    // Add the product object from the modal
-    cart.push(currentModalItem);
+  const existing = cart.find(item => item.id === currentModalItem.id);
 
-    // Save back to localStorage
-    localStorage.setItem("cart", JSON.stringify(cart));
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({
+      id: currentModalItem.id,
+      name: currentModalItem.title,
+      price: currentModalItem.price,
+      qty: 1
+    });
+  }
 
-    // Update floating cart number
-    document.getElementById("cartCount").textContent = cart.length;
+  localStorage.setItem("cart", JSON.stringify(cart));
 
-    // Quick confirmation
-    alert(`${currentModalItem.title} has been added to your cart!`);
+  // update cart count properly
+  const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById("cartCount").textContent = totalQty;
+
+  showToast(`${product.title} added to cart`);
 }
 
 function initNavbar() {
@@ -243,5 +297,17 @@ function initNavbar() {
   });
 
   navLinks.addEventListener("click", e => e.stopPropagation());
+
+  function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2000);
 }
+}
+
+let currentModalItem = null;
 
