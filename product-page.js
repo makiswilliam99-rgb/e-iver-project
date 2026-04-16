@@ -45,7 +45,7 @@ fetch("footer.html")
     {id:"soursopTea", title:"Soursop Tea", price:20, desc:"Tea made from soursop leaves...", img:"f28.jpg"},
     {id:"ivermectinHorse", title:"Ivermectin Horse Paste and Strip", price:100, desc:"Ivermectin horse paste with dosing strip...", img:"f29.jpg"},
     {id:"methylene12", title:"Methylene Blue 12mg Pills", price:150, desc:"Methylene Blue supplement for cellular support...", img:"f9.jpg"},
-    {id:"lotilaner", title:"Lotilaner 0.25 Eye Drops", price:700, desc:"XDEMVY (lotilaner ophthalmic solution) 0.25% is an FDA-approved ...", img:"f29.png"}
+    {id:"lotilaner", title:"Lotilaner 0.25 Eye Drops (XDEMVY )", price:700, desc:"XDEMVY (lotilaner ophthalmic solution) 0.25% is an FDA-approved ...", img:"f29.png"}
   ];
 
   // =======================
